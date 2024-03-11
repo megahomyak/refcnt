@@ -22,6 +22,8 @@ void* calloc_counted(size_t, size_t);
 
 /** Extends or shrinks the provided reference-counted allocation
  *
+ * WARNING: may invalidate the old pointers, so there should only be one pointer in use at the time this function is called
+ *
  * First argument: a non-NULL pointer retrieved from `malloc_counted()`, `calloc_counted()` or `realloc_counted()`
  * Second argument: the new size of the allocation
  *
@@ -31,6 +33,8 @@ void* realloc_counted(void*, size_t);
 
 /** Increments the reference counter and returns the passed pointer. Should be used when you want to store a copy of a pointer for an indefinite amount of time
  *
+ * WARNING: not thread-safe (with the same pointer)
+ *
  * First argument: a non-NULL pointer retrieved from `malloc_counted()`, `calloc_counted()` or `realloc_counted()`
  *
  * Return value: the same pointer as the one passed in
@@ -39,7 +43,11 @@ void* copy_counted(void*);
 
 /** Decrements the reference counter, frees the allocation if the counter reaches zero. You should call this function when you're disposing of a pointer
  *
+ * WARNING: not thread-safe (with the same pointer)
+ *
  * First argument: a non-NULL pointer retrieved from `malloc_counted()`, `calloc_counted()` or `realloc_counted()`
+ *
+ * Warning: 
  */
 void free_counted(void*);
 
