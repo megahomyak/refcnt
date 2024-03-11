@@ -34,14 +34,14 @@ void* realloc_counted(void* allocation, size_t new_size) {
 }
 
 void* copy_counted(void* allocation) {
-    *((size_t*) allocation - sizeof(size_t)) += 1;
+    (*((size_t*) (allocation - sizeof(size_t))))++;
     return allocation;
 }
 
 void free_counted(void* allocation) {
     void* original_allocation = allocation - sizeof(size_t);
 
-    *((size_t*) original_allocation) -= 1;
+    (*((size_t*) original_allocation))--;
     if (*((size_t*) original_allocation) == 0) {
         free(original_allocation);
     }
